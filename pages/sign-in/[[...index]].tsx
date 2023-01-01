@@ -1,8 +1,11 @@
 import { SignIn } from "@clerk/nextjs";
+import AuthLayout from "../../components/Layout/AuthLayout";
 
 const SignInPage = () => {
   return (
-    <SignIn signUpUrl="/sign-up" />
+    <AuthLayout>
+      <SignIn signUpUrl="/sign-up" />
+    </AuthLayout>
   );
 };
 
