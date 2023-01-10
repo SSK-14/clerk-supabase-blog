@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
+import { Analytics } from '@vercel/analytics/react';
 import { useRouter } from "next/router";
 import SignUpPage from "./sign-up/[[...index]]";
 import SignInPage from "./sign-in/[[...index]]";
@@ -24,6 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           {router.pathname.match("/sign-up") ? <SignUpPage /> : <SignInPage />}
         </SignedOut>
       </main>
+      <Analytics />
     </ClerkProvider>
   );
 }
