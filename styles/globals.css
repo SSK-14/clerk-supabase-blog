@@ -5,6 +5,8 @@
 body,
 html {
   margin: 0;
+  color: white;
+  background-color: #232323;
   font-family: "PT Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
