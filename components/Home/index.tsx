@@ -18,7 +18,7 @@ export function Home() {
   
 
   return (
-    <div>
+    <div className="h-full">
       <div className="w-full flex justify-between items-center">
         <h2 className="text-3xl font-bold">Welcome To Clerk!</h2>
         <button

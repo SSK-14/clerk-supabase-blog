@@ -14,7 +14,7 @@ const Layout = ({ children }: Props) => {
         <meta property="og:title" content="Next.js + Clerk App" />
       </Head>
       <Header />
-      <main className='container mx-auto mt-20'>{children}</main>
+      <main className='container mx-auto h-screen pt-20'>{children}</main>
     </>
   );
 };
