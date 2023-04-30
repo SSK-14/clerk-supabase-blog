@@ -1,16 +1,15 @@
 import { useState } from "react";
 import Popup from ".";
 import supabaseClient from "../../lib/supabaseClient";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import Loader from "../Loader";
 
-function AddPostPopup(props: any) {
-  const { closePopup, addNewPost } = props;
-  const { getToken, userId } = useAuth();
-  const { user } = useUser();
+function EditPostPopup(props: any) {
+  const { closePopup, updatePosts, post } = props;
+  const { getToken } = useAuth();
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState(post.title || "");
+  const [content, setContent] = useState(post.content || "");
   const [loading, setLoading] = useState(false);
 
   const handleSave = async (e: any) => {
@@ -25,18 +24,10 @@ function AddPostPopup(props: any) {
     const supabase = await supabaseClient(supabaseAccessToken);
     const { data } = await supabase
       .from("posts")
-      .insert({
-        title: title,
-        user_id: userId,
-        content: content,
-        avatar_url: user?.profileImageUrl,
-        username: user?.username,
-      })
-      .select();
+      .update({ title: title, content: content })
+      .eq('id', post.id);
 
-    console.log({ data });
-
-    addNewPost(data && data[0]);
+    updatePosts({ ...post, title: title, content: content });
     setLoading(false);
     closePopup();
   };
@@ -46,7 +37,7 @@ function AddPostPopup(props: any) {
   };
 
   return (
-    <Popup title='Add Post' onClose={closePopup}>
+    <Popup title='Edit Post' onClose={closePopup}>
       <form className='w-full sm:w-[28rem]' onSubmit={handleSave}>
         <div className='mb-4'>
           <input
@@ -90,4 +81,4 @@ function AddPostPopup(props: any) {
   );
 }
 
-export default AddPostPopup;
+export default EditPostPopup;

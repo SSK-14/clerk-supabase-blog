@@ -1,13 +1,21 @@
 import { useState, useEffect } from "react";
 import { useSession } from "@clerk/nextjs";
 import NoPostImage from "../../assets/images/stars.svg";
+import DeleteIcon from "../../assets/images/delete.svg";
+import EditIcon from "../../assets/images/edit.svg";
 import supabaseClient from "../../lib/supabaseClient";
 import Loader from "../Loader";
 import Image from "next/image";
+import DeletePostPopup from "../Popup/DeletePostPopup";
+import EditPostPopup from "../Popup/EditPostPopup";
+import { PostType } from "../../types/post";
 
 const PostList = ({ posts, setPosts }: any) => {
   const { session } = useSession();
   const [loading, setLoading] = useState(true);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<PostType>();
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -30,7 +38,7 @@ const PostList = ({ posts, setPosts }: any) => {
 
   if (loading) {
     return (
-      <div className=''>
+      <div className='h-[70vh] flex justify-center items-center'>
         <Loader />
       </div>
     );
@@ -61,9 +69,63 @@ const PostList = ({ posts, setPosts }: any) => {
                 </div>
               </div>
               <p className='my-4'>{post.content}</p>
-              <p className='text-xs mt-2 text-zinc-400'>
-                {post.inserted_at}
-              </p>
+              <div className='flex items-center justify-between'>
+                <p className='text-xs mt-2 text-zinc-400'>
+                  {post.inserted_at}
+                </p>
+                <div className='flex gap-4'>
+                  <button
+                    onClick={() => {
+                      setShowEditPopup(true);
+                      setSelectedPost(post);
+                    }}
+                    className='p-2 rounded-full bg-amber-500 hover:scale-110 hover:bg-opacity-80'
+                  >
+                    <Image
+                      src={EditIcon}
+                      alt='edit'
+                      width={20}
+                      height={20}
+                    />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowDeletePopup(true);
+                      setSelectedPost(post);
+                    }}
+                    className='p-2 rounded-full bg-red-500 hover:scale-110 hover:bg-opacity-80'
+                  >
+                    <Image
+                      src={DeleteIcon}
+                      alt='delete'
+                      width={20}
+                      height={20}
+                    />
+                  </button>
+                </div>
+              </div>
+              {showDeletePopup && (
+                <DeletePostPopup
+                  closePopup={() => setShowDeletePopup(false)}
+                  postId={selectedPost?.id}
+                  deletePosts={(id: any) =>
+                    setPosts(posts.filter((post: any) => post.id !== id))
+                  }
+                />
+              )}
+              {showEditPopup && (
+                <EditPostPopup
+                  closePopup={() => setShowEditPopup(false)}
+                  updatePosts={(updatedPost: any) =>
+                    setPosts(
+                      posts.map((post: any) =>
+                        post.id === updatedPost.id ? updatedPost : post
+                      )
+                    )
+                  }
+                  post={selectedPost}
+                />
+              )}
             </li>
           ))}
         </ol>
