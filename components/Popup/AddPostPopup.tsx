@@ -1,16 +1,17 @@
 import { useState } from "react";
 import Popup from ".";
 import supabaseClient from "../../lib/supabaseClient";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import Loader from "../Loader";
 
 function AddPostPopup(props: any) {
   const { closePopup, addNewPost } = props;
   const { getToken, userId } = useAuth();
+  const { user } = useUser();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleSave = async (e: any) => {
     e.preventDefault();
@@ -24,8 +25,14 @@ function AddPostPopup(props: any) {
     const supabase = await supabaseClient(supabaseAccessToken);
     const { data } = await supabase
       .from("posts")
-      .insert({ title: title, user_id: userId, content: content })
-      .select()
+      .insert({
+        title: title,
+        user_id: userId,
+        content: content,
+        avatar_url: user?.profileImageUrl,
+        username: user?.username,
+      })
+      .select();
 
     console.log({ data });
 
@@ -49,7 +56,7 @@ function AddPostPopup(props: any) {
             <p className='ml-2 font-semibold'>Title</p>
           </label>
           <input
-            id="title"
+            id='title'
             type='text'
             value={title}
             required
@@ -66,7 +73,7 @@ function AddPostPopup(props: any) {
             <p className='ml-2 font-semibold'>Content</p>
           </label>
           <input
-            id="content"
+            id='content'
             type='text'
             value={content}
             required
@@ -84,9 +91,9 @@ function AddPostPopup(props: any) {
             Cancel
           </button>
           <button
-            type="submit"
+            type='submit'
             disabled={loading}
-            className='w-full mx-2 px-4 h-12 bg-blue-500 text-slate-100 rounded-lg hover:bg-blue-600'
+            className='w-full mx-2 px-4 h-12 bg-indigo-500 text-slate-100 rounded-lg hover:bg-indigo-600'
           >
             {loading ? <Loader small /> : "Submit"}
           </button>
