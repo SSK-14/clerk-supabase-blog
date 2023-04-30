@@ -31,6 +31,7 @@ function AddPostPopup(props: any) {
         content: content,
         avatar_url: user?.profileImageUrl,
         username: user?.username,
+        likes: [],
       })
       .select();
 

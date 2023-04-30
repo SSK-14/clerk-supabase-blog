@@ -1,19 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PostList from "./PostList";
 import AddPostPopup from "../Popup/AddPostPopup";
-import { useUser } from "@clerk/nextjs";
+import supabaseClient from "../../lib/supabaseClient";
+import { useSession, useUser } from "@clerk/nextjs";
 import Loader from "../Loader";
 import { PostType } from "../../types/post";
 
 export function Home() {
+  const { session } = useSession();
   const { user, isLoaded } = useUser();
 
   const [posts, setPosts] = useState<PostType[]>([]);
+  const [loading, setLoading] = useState(true);
   const [addPostPopup, setAddPostPopup] = useState(false);
 
-  if (!isLoaded || !user) {
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        setLoading(true);
+        const supabaseAccessToken = await session?.getToken({
+          template: "supabase-clerk",
+        });
+        const supabase = await supabaseClient(supabaseAccessToken);
+        const { data: posts }: any = await supabase
+          .from("posts")
+          .select("*")
+          .order("id", { ascending: false });
+        setPosts(posts);
+      } catch (e) {
+        alert(e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPosts();
+  }, []);
+
+  if (!isLoaded || !user || loading) {
     return (
-      <div className='h-full justify-center flex items-center'>
+      <div className='h-screen justify-center flex items-center'>
         <Loader />
       </div>
     );
@@ -36,7 +61,7 @@ export function Home() {
           Add Post
         </button>
       </div>
-      <PostList posts={posts} setPosts={setPosts} />
+      <PostList posts={posts} setPosts={setPosts} user={user} />
       {addPostPopup && (
         <AddPostPopup
           closePopup={() => setAddPostPopup(false)}

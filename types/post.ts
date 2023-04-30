@@ -5,5 +5,6 @@ export type PostType = {
   title: string;
   content: string;
   user_id: string;
+  likes: [];
   inserted_at: string;
 };
