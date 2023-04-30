@@ -33,16 +33,16 @@ export function Home() {
 
   return (
     <div className='h-full'>
-      <div className='w-full flex justify-between items-center'>
-        <h1 className='flex items-center text-4xl font-extrabold leading-none tracking-tight'>
+      <div className='w-full px-4 flex flex-col sm:flex-row justify-center pt-20 sm:justify-between items-center'>
+        <h1 className='flex items-center text-4xl my-8 font-extrabold leading-none tracking-tight'>
           Welcome{" "}
-          <mark className='px-2 py-1 text-2xl mx-2 text-white bg-gradient-to-r to-indigo-700 from-indigo-500 rounded-lg'>
+          <mark className='px-2 font-mono py-1 text-2xl mx-2 text-white bg-gradient-to-r to-indigo-700 from-indigo-500 rounded-lg'>
             @{user?.username}
           </mark>{" "}
           👋 
         </h1>
         <button
-          className='py-2 px-8 my-8 rounded-full bg-indigo-600 text-xl font-semibold hover:bg-indigo-700 hover:scale-105'
+          className='py-2 px-8 absolute bottom-10 sm:static rounded-full bg-indigo-600 text-xl font-semibold hover:bg-indigo-700 hover:scale-105'
           onClick={() => setAddPostPopup(true)}
         >
           Add Post

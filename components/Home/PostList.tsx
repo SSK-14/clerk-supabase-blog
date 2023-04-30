@@ -39,17 +39,17 @@ const PostList = ({ posts, setPosts }: any) => {
   return (
     <>
       {posts?.length > 0 ? (
-        <ol className='h-[80%] overflow-y-auto px-4'>
+        <ol className='h-[70vh] overflow-y-auto px-4'>
           {posts.map((post: any) => (
             <li
               className='min-w-[300px] p-4 my-4 rounded-lg border-2 border-zinc-700 bg-zinc-800'
               key={post.id}
             >
-              <div className='flex justify-between items-center'>
-                <p className='text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r to-indigo-300 from-indigo-400'>
+              <div className='flex flex-wrap justify-between items-center'>
+                <p className='text-3xl font-mono font-extrabold text-transparent bg-clip-text bg-gradient-to-r to-indigo-300 from-indigo-400'>
                   {post.title}
                 </p>
-                <div className='flex items-center p-1 rounded-full border-2 border-slate-600'>
+                <div className='flex items-center p-1 my-2 rounded-full border-2 border-slate-600'>
                   <Image
                     className='rounded-full'
                     src={post.avatar_url}

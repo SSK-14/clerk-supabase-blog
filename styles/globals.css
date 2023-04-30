@@ -19,11 +19,20 @@
   @apply w-4 h-4 mt-2 mx-4 bg-blue-400 rounded-full;
 }
 
+/* .background {
+  background-image: radial-gradient(circle,rgba(58,58,58,.75) 2px,transparent 0);
+  background-size: 30px 30px;
+  background-position: 0 0,15px 15px;
+} */
+
 body,
 html {
   margin: 0;
   color: white;
   background-color: #232323;
+  background-image: radial-gradient(circle,rgba(58,58,58,.75) 2px,transparent 0);
+  background-size: 30px 30px;
+  background-position: 0 0,15px 15px;
   font-family: "PT Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
