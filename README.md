@@ -2,8 +2,6 @@
 
 ## Overview
 
-<video src="./demo.mp4" controls="controls" style="max-width: 730px;"></video>
-
 Simple Blogging web application that allows users to login, create posts, view posts, like posts, and edit and update their own posts.
 Build for learning purposes only.
 
