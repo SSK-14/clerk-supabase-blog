@@ -22,7 +22,6 @@ const PostList = ({ posts, setPosts, user }: any) => {
       template: "supabase-clerk",
     });
     const supabase = await supabaseClient(supabaseAccessToken);
-    console.log(selectedPost);
 
     const index = likeIndex(selectedPost);
     let updatedLikes: any = selectedPost?.likes || [];
@@ -84,7 +83,7 @@ const PostList = ({ posts, setPosts, user }: any) => {
                 <p className='text-2xl sm:text-3xl font-mono font-extrabold text-transparent bg-clip-text bg-gradient-to-r to-emerald-300 from-green-500'>
                   {post.title}
                 </p>
-                <p className='text-sm sm:text-base mt-2 text-zinc-400'>
+                <p className='text-sm sm:text-base text-zinc-400'>
                   {formatDate(post.inserted_at)}
                 </p>
               </div>

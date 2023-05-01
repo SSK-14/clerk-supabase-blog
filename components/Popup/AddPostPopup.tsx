@@ -35,8 +35,6 @@ function AddPostPopup(props: any) {
       })
       .select();
 
-    console.log({ data });
-
     addNewPost(data && data[0]);
     setLoading(false);
     closePopup();

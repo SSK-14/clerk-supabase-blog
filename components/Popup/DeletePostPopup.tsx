@@ -9,9 +9,6 @@ function DeletePostPopup(props: any) {
   const { getToken } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  console.log({ postId });
-  
-
   const handleSave = async (e: any) => {
     e.preventDefault();
     setLoading(true);
