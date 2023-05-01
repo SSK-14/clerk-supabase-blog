@@ -2,17 +2,18 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 import ClerkLogo from "../../assets/images/clerk.svg";
 import SupabaseLogo from "../../assets/images/supabase.svg";
 import Image from "next/image";
+import Link from "next/link";
 
 const Header = () => {
 
   return (
     <header className="z-50 backdrop-blur-lg bg-[#1c1c1c] w-full fixed top-0">
       <div className="container mx-auto px-4 h-20 flex justify-between items-center">
-        <a className="flex text-2xl font-mono font-bold items-center gap-4" href="">
+        <Link className="flex text-2xl font-mono font-bold items-center gap-4" href="/">
           <Image src={ClerkLogo} alt="logo" height={30} />
           <Image src={SupabaseLogo} alt="logo" height={30} />
           <p className="hidden sm:block">{"INSTAPOST"}</p>
-        </a>
+        </Link>
         <div>
           <SignedIn>
             <UserButton userProfileMode="navigation" userProfileUrl='/profile'

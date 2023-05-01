@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import PostList from "./PostList";
 import AddPostPopup from "../Popup/AddPostPopup";
+import AddIcon from "../../assets/images/add.svg";
 import supabaseClient from "../../lib/supabaseClient";
 import { useSession, useUser } from "@clerk/nextjs";
 import Loader from "../Loader";
 import { PostType } from "../../types/post";
+import Image from "next/image";
 
 export function Home() {
   const { session } = useSession();
@@ -55,10 +57,11 @@ export function Home() {
           👋
         </h1>
         <button
-          className='py-2 px-8 absolute bottom-10 sm:static rounded-full bg-indigo-600 text-xl font-semibold hover:bg-indigo-700 hover:scale-105'
+          className='p-4 sm:py-2 flex items-center gap-2 absolute bottom-10 sm:static rounded-full bg-indigo-600 text-xl font-semibold hover:bg-indigo-700 hover:scale-105'
           onClick={() => setAddPostPopup(true)}
         >
-          Add Post
+          <Image src={AddIcon} alt='Add Post' />
+          <p className="hidden font-mono sm:block">Add Post</p>
         </button>
       </div>
       <PostList posts={posts} setPosts={setPosts} user={user} />

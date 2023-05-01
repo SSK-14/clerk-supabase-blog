@@ -16,7 +16,7 @@
 }
 
 .large-circle {
-  @apply w-4 h-4 mt-2 mx-4 bg-blue-400 rounded-full;
+  @apply w-4 h-4 mt-2 mx-4 bg-[#3ecf8e] rounded-full;
 }
 
 /* .background {

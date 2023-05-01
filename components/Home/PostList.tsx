@@ -3,6 +3,7 @@ import NoPostImage from "../../assets/images/stars.svg";
 import DeleteIcon from "../../assets/images/delete.svg";
 import EditIcon from "../../assets/images/edit.svg";
 import HeartIcon from "../../assets/images/heart.svg";
+import HeartFilledIcon from "../../assets/images/heart-filled.svg";
 import Image from "next/image";
 import DeletePostPopup from "../Popup/DeletePostPopup";
 import EditPostPopup from "../Popup/EditPostPopup";
@@ -51,6 +52,25 @@ const PostList = ({ posts, setPosts, user }: any) => {
     return post.likes?.indexOf(user?.id);
   }
 
+  const formatDate = (dateTimeString: string): string => {
+    const currentDate = new Date();
+    const date = new Date(dateTimeString);
+    const timeDiffInSeconds = (currentDate.getTime() - date.getTime()) / 1000;
+
+    if (timeDiffInSeconds < 60) {
+      return `${Math.floor(timeDiffInSeconds)}s ago`;
+    } else if (timeDiffInSeconds < 3600) {
+      return `${Math.floor(timeDiffInSeconds / 60)}mins ago`;
+    } else if (timeDiffInSeconds < 86400) {
+      return `${Math.floor(timeDiffInSeconds / 3600)}hrs ago`;
+    } else if (timeDiffInSeconds < 172800) {
+      return 'yesterday';
+    } else {
+      const options: any = { year: 'numeric', month: 'short', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    }
+  };
+
   return (
     <>
       {posts?.length > 0 ? (
@@ -61,50 +81,40 @@ const PostList = ({ posts, setPosts, user }: any) => {
               key={post.id}
             >
               <div className='flex flex-wrap justify-between items-center'>
-                <p className='text-3xl font-mono font-extrabold text-transparent bg-clip-text bg-gradient-to-r to-emerald-300 from-green-500'>
+                <p className='text-2xl sm:text-3xl font-mono font-extrabold text-transparent bg-clip-text bg-gradient-to-r to-emerald-300 from-green-500'>
                   {post.title}
                 </p>
-                <div className='flex items-center p-1 my-2 rounded-full border-2 border-slate-600'>
-                  <Image
-                    className='rounded-full'
-                    src={post.avatar_url}
-                    alt={post.username}
-                    width={30}
-                    height={30}
-                  />
-                  <p className='mx-1'>{post.username}</p>
-                </div>
-              </div>
-              <p className='my-4'>{post.content}</p>
-              <div className='flex items-center justify-between'>
-                <p className='text-xs mt-2 text-zinc-400'>
-                  {post.inserted_at}
+                <p className='text-sm sm:text-base mt-2 text-zinc-400'>
+                  {formatDate(post.inserted_at)}
                 </p>
-                {post.user_id === user?.id && (
+              </div>
+              <p className='my-4 text-sm sm:text-base max-h-[300px] overflow-y-auto'>{post.content}</p>
+              <div className='flex items-center justify-between'>
+                <button
+                  onClick={() => {
+                    handlePostLike(post);
+                  }}
+                  className={`py-0 sm:py-1 px-3 flex gap-2 justify-center items-center min-w-18 rounded-full border-2 ${likeIndex(post) > -1 && "bg-indigo-600"
+                    } border-indigo-500 hover:bg-indigo-600 hover:scale-110 hover:bg-opacity-80`}
+                >
+                  <p className='text-xl font-mono font-semibold text-indigo-100'>
+                    {post.likes.length}
+                  </p>
+                  <Image
+                    src={likeIndex(post) > -1 ? HeartFilledIcon : HeartIcon}
+                    alt='like'
+                    width={20}
+                    height={20}
+                  />
+                </button>
+                {post.user_id === user?.id ? (
                   <div className='flex items-center gap-4'>
-                    <p className='text-xl text-indigo-100'>
-                      {post.likes.length}
-                    </p>
-                    <button
-                      onClick={() => {
-                        handlePostLike(post);
-                      }}
-                      className={`p-3 rounded-full border-2 ${likeIndex(post) > -1 && "bg-indigo-600"
-                        } border-indigo-500 hover:bg-indigo-600 hover:scale-110 hover:bg-opacity-80`}
-                    >
-                      <Image
-                        src={HeartIcon}
-                        alt='like'
-                        width={20}
-                        height={20}
-                      />
-                    </button>
                     <button
                       onClick={() => {
                         setSelectedPost(post);
                         setShowEditPopup(true);
                       }}
-                      className='p-3 rounded-full bg-amber-500 hover:scale-110 hover:bg-opacity-80'
+                      className='p-1 sm:p-2 rounded-full border-2 border-amber-400 bg-amber-500 hover:scale-110 hover:bg-opacity-80'
                     >
                       <Image
                         src={EditIcon}
@@ -118,7 +128,7 @@ const PostList = ({ posts, setPosts, user }: any) => {
                         setSelectedPost(post);
                         setShowDeletePopup(true);
                       }}
-                      className='p-3 rounded-full bg-red-500 hover:scale-110 hover:bg-opacity-80'
+                      className='p-1 sm:p-2 rounded-full border-2 border-red-400 bg-red-500 hover:scale-110 hover:bg-opacity-80'
                     >
                       <Image
                         src={DeleteIcon}
@@ -127,6 +137,17 @@ const PostList = ({ posts, setPosts, user }: any) => {
                         height={20}
                       />
                     </button>
+                  </div>
+                ) : (
+                  <div className='flex items-center p-1 my-2 rounded-full border-2 border-slate-600'>
+                    <Image
+                      className='rounded-full'
+                      src={post.avatar_url}
+                      alt={post.username}
+                      width={30}
+                      height={30}
+                    />
+                    <p className='mx-1'>{post.username}</p>
                   </div>
                 )}
               </div>
