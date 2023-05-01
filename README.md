@@ -1,5 +1,9 @@
 # **Clerk Supabase Blog**
 
+## Demo [🔗](https://instapost-demo.vercel.app)
+
+https://user-images.githubusercontent.com/45158568/235469362-323192cf-82e6-4be8-9e2b-6887f72a03ce.mp4
+
 ## Overview
 
 Simple Blogging web application that allows users to login, create posts, view posts, like posts, and edit and update their own posts.
