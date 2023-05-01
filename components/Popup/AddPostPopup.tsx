@@ -63,7 +63,7 @@ function AddPostPopup(props: any) {
             id='content'
             value={content}
             required
-            className='w-full px-4 py-4 border border-zinc-800 rounded-lg bg-zinc-700'
+            className='w-full sm:h-40 px-4 py-4 border border-zinc-800 rounded-lg bg-zinc-700'
             onChange={(e) => setContent(e.target.value)}
             placeholder='Your content goes here...'
           />
