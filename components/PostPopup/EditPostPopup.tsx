@@ -18,10 +18,7 @@ function EditPostPopup(props: any) {
       return;
     }
     setLoading(true);
-    const supabaseAccessToken = await getToken({
-      template: "supabase-clerk",
-    });
-    const supabase = await supabaseClient(supabaseAccessToken);
+    const supabase = await supabaseClient(getToken);
     const { data } = await supabase
       .from("posts")
       .update({ title: title, content: content })

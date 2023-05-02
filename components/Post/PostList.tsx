@@ -5,8 +5,8 @@ import EditIcon from "../../assets/images/edit.svg";
 import HeartIcon from "../../assets/images/heart.svg";
 import HeartFilledIcon from "../../assets/images/heart-filled.svg";
 import Image from "next/image";
-import DeletePostPopup from "../Popup/DeletePostPopup";
-import EditPostPopup from "../Popup/EditPostPopup";
+import DeletePostPopup from "../PostPopup/DeletePostPopup";
+import EditPostPopup from "../PostPopup/EditPostPopup";
 import { PostType } from "../../types/post";
 import supabaseClient from "../../lib/supabaseClient";
 import { useAuth } from "@clerk/nextjs";
@@ -18,10 +18,7 @@ const PostList = ({ posts, setPosts, user }: any) => {
   const [selectedPost, setSelectedPost] = useState<PostType>();
 
   const handlePostLike = async (selectedPost: any) => {
-    const supabaseAccessToken = await getToken({
-      template: "supabase-clerk",
-    });
-    const supabase = await supabaseClient(supabaseAccessToken);
+    const supabase = await supabaseClient(getToken);
 
     const index = likeIndex(selectedPost);
     let updatedLikes: any = selectedPost?.likes || [];

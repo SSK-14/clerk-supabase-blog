@@ -12,10 +12,7 @@ function DeletePostPopup(props: any) {
   const handleSave = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    const supabaseAccessToken = await getToken({
-      template: "supabase-clerk",
-    });
-    const supabase = await supabaseClient(supabaseAccessToken);
+    const supabase = await supabaseClient(getToken);
     await supabase.from("posts").delete().eq("id", postId);
 
     setLoading(false);

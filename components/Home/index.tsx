@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import PostList from "./PostList";
-import AddPostPopup from "../Popup/AddPostPopup";
+import PostList from "../Post/PostList";
+import AddPostPopup from "../PostPopup/AddPostPopup";
 import AddIcon from "../../assets/images/add.svg";
 import supabaseClient from "../../lib/supabaseClient";
-import { useSession, useUser } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import Loader from "../Loader";
 import { PostType } from "../../types/post";
 import Image from "next/image";
 
 export function Home() {
-  const { session } = useSession();
-  const { user, isLoaded } = useUser();
+  const { getToken } = useAuth();
+  const { user } = useUser();
 
   const [posts, setPosts] = useState<PostType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -21,10 +21,7 @@ export function Home() {
     const loadPosts = async () => {
       try {
         setLoading(true);
-        const supabaseAccessToken = await session?.getToken({
-          template: "supabase-clerk",
-        });
-        const supabase = await supabaseClient(supabaseAccessToken);
+        const supabase = await supabaseClient(getToken);
         const { data: posts }: any = await supabase
           .from("posts")
           .select("*")
@@ -42,6 +39,7 @@ export function Home() {
     } else {
       setPosts(posts.filter((post: any) => post.user_id === user?.id));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toggleAllPosts]);
 
   return (
@@ -56,17 +54,15 @@ export function Home() {
         </h1>
         <div className='flex gap-2 my-6 font-mono text-sm sm:text-base'>
           <button
-            className={`py-2 px-4 ${
-              toggleAllPosts && "ring-2 ring-indigo-500 font-semibold"
-            } rounded-full`}
+            className={`py-2 px-4 ${toggleAllPosts && "ring-2 ring-indigo-500 font-semibold"
+              } rounded-full`}
             onClick={() => setToggleAllPosts(true)}
           >
             All Posts
           </button>
           <button
-            className={`py-2 px-4 ${
-              !toggleAllPosts && "ring-2 ring-indigo-500 font-semibold"
-            } rounded-full`}
+            className={`py-2 px-4 ${!toggleAllPosts && "ring-2 ring-indigo-500 font-semibold"
+              } rounded-full`}
             onClick={() => setToggleAllPosts(false)}
           >
             My Posts

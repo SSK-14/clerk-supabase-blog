@@ -18,7 +18,18 @@ Users can sign up for an account using Clerk's authentication system and login t
 
 ## Getting Started
 
-First, we will need to create a [Clerk project](https://dashboard.clerk.com/). Once that is setup now create a Supabase project which you can do by heading over to https://supabase.io.
+1. First, we will need to create a [Clerk project](https://dashboard.clerk.com/). 
+
+2. Enable Email address, Username, Password, Email verification code, Name in [Clerk project](https://dashboard.clerk.com/) > CONFIGURE > User & Authentication > Email, Phone, Username.
+
+3. Once that is setup now create a Supabase project which you can do by heading over to https://supabase.io.
+
+4. Go back to your Clerk dashboard, and navigate to JWT Templates. Press "New Template" then select the "Supabase" template to get started.  
+ - Use Signing algorithm: HS256
+ - Copy your Supabase JWT Secret into "Signing key"
+ - Add the template name in .env
+
+5. Create a table in supabase, go to SQL Editor and run the SQL snippets [schema.sql](schema.sql) .
 
 ## Development
 
@@ -42,6 +53,7 @@ npm install
 NEXT_PUBLIC_SUPABASE_URL="https://__PROJECT_ID__.supabase.co"
 NEXT_PUBLIC_SUPABASE_KEY="your-supabase-anon-key"
 NEXT_PUBLIC_CLERK_FRONTEND_API = "your-clerk-frontend-api"
+NEXT_PUBLIC_SUPABASE_TEMPLATE_KEY = 'YOUR_SUPABASE_CLERK_TEMPLATE_KEY'
 ```
 
 4. Run the app
