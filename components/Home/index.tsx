@@ -54,15 +54,17 @@ export function Home() {
         </h1>
         <div className='flex gap-2 my-6 font-mono text-sm sm:text-base'>
           <button
-            className={`py-2 px-4 ${toggleAllPosts && "ring-2 ring-indigo-500 font-semibold"
-              } rounded-full`}
+            className={`py-2 px-4 ${
+              toggleAllPosts && "ring-2 ring-indigo-500 font-semibold"
+            } rounded-full`}
             onClick={() => setToggleAllPosts(true)}
           >
             All Posts
           </button>
           <button
-            className={`py-2 px-4 ${!toggleAllPosts && "ring-2 ring-indigo-500 font-semibold"
-              } rounded-full`}
+            className={`py-2 px-4 ${
+              !toggleAllPosts && "ring-2 ring-indigo-500 font-semibold"
+            } rounded-full`}
             onClick={() => setToggleAllPosts(false)}
           >
             My Posts
@@ -86,7 +88,7 @@ export function Home() {
       {addPostPopup && (
         <AddPostPopup
           closePopup={() => setAddPostPopup(false)}
-          addNewPost={(post: any) => setPosts([...posts, post])}
+          addNewPost={(post: any) => setPosts([post, ...posts])}
         />
       )}
     </div>
